@@ -1,0 +1,8 @@
+代码覆盖率
+
+nohup ./update_gcov.sh & 
+
+nohup python -m SimpleHTTPServer 8080 > /dev/null &
+
+
+
