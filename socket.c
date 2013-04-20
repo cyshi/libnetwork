@@ -41,18 +41,18 @@ static socket_impl_t socket_impl;
 //对外接口
 socket_impl_t *socket_getinstance(void)
 {
-	socket_impl_t *ret = &socket_impl;	
-	if(0 == inited)
-	{
-		ret->create_main_socket = create_main_socket;
-		ret->dispatch_main_socket = dispatch_main_socket;
-		ret->destroy_main_socket = destroy_main_socket;
-		ret->create_thread_socket = create_thread_socket;
-		ret->dispatch_thread_socket = dispatch_thread_socket;
-		ret->destroy_thread_socket = destroy_thread_socket;
-		inited = 1;	
-	}
-	return ret;
+  socket_impl_t *ret = &socket_impl;	
+  if(0 == inited)
+  {
+    ret->create_main_socket = create_main_socket;
+    ret->dispatch_main_socket = dispatch_main_socket;
+    ret->destroy_main_socket = destroy_main_socket;
+    ret->create_thread_socket = create_thread_socket;
+    ret->dispatch_thread_socket = dispatch_thread_socket;
+    ret->destroy_thread_socket = destroy_thread_socket;
+    inited = 1;	
+  }
+  return ret;
 }
 
 /**
@@ -127,8 +127,8 @@ int dispatch_main_socket(server_t *server)
   main_socket_addr.sin_port = htons(main_socket->port);    
   //绑定端口
   if(-1 == bind(main_socket->listenfd, 
-                (struct sockaddr *)&main_socket_addr, 
-                sizeof(struct sockaddr_in)))
+        (struct sockaddr *)&main_socket_addr, 
+        sizeof(struct sockaddr_in)))
   {
     log_error("bind fail, errno = %d", errno);
     return -1; 
