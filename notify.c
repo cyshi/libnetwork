@@ -13,14 +13,14 @@ static notify_impl_t notify_impl;
 
 notify_impl_t *notify_getinstance(void)
 {
-	notify_impl_t *ret = &notify_impl;	
-	if(0 == inited)
-	{
-		ret->send_notify = send_notify;	
-		ret->recv_notify = recv_notify;	
-		inited = 0;
-	}
-	return ret;
+  notify_impl_t *ret = &notify_impl;	
+  if(0 == inited)
+  {
+    ret->send_notify = send_notify;	
+    ret->recv_notify = recv_notify;	
+    inited = 0;
+  }
+  return ret;
 }
 
 /**
@@ -30,23 +30,23 @@ notify_impl_t *notify_getinstance(void)
  */
 int send_notify(int fd)
 {
-	int ret = 0, cnt = 0;
-	while(1)
-	{
-		ret = write(fd, "", 1);
-		if(0 == ret) return -1;
-		else if(-1 == ret)
-		{
-			if(errno == EINTR || errno == EAGAIN)
-			{
-				if(cnt++>100) return -1;
-				continue;	
-			}
-			else return -1;
-		}
-		else break;
-	}
-	return 0;
+  int ret = 0, cnt = 0;
+  while(1)
+  {
+    ret = write(fd, "", 1);
+    if(0 == ret) return -1;
+    else if(-1 == ret)
+    {
+      if(errno == EINTR || errno == EAGAIN)
+      {
+        if(cnt++>100) return -1;
+        continue;	
+      }
+      else return -1;
+    }
+    else break;
+  }
+  return 0;
 }
 
 /**
@@ -56,23 +56,23 @@ int send_notify(int fd)
  */
 int recv_notify(int fd)
 {
-	char tmp;
-	int ret = 0, cnt = 0;
-	while(1)
-	{
-		ret = read(fd, &tmp, sizeof(char));	
-		if(0 == ret) return -1;
-		else if(-1 == ret)
-		{
-			if(EINTR == errno || EAGAIN == errno) 
-			{
-				if(cnt++>100) return -1;
-				continue;
-			}
-			else return -1;
-		}
-		else break;
-	}
-	return 0;	
+  char tmp;
+  int ret = 0, cnt = 0;
+  while(1)
+  {
+    ret = read(fd, &tmp, sizeof(char));	
+    if(0 == ret) return -1;
+    else if(-1 == ret)
+    {
+      if(EINTR == errno || EAGAIN == errno) 
+      {
+        if(cnt++>100) return -1;
+        continue;
+      }
+      else return -1;
+    }
+    else break;
+  }
+  return 0;	
 }
 

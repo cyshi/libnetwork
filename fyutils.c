@@ -19,51 +19,51 @@
 
 int setnonblocking(int fd)
 {
-    int opts;
-    if(0 > (opts = fcntl(fd,F_GETFL)))
-    {
-        fprintf(stderr, "fcntl(sock,GETFL)\n");
-        return -1;
-    }
-    opts = opts|O_NONBLOCK;
-    if (fcntl(fd,F_SETFL,opts) < 0)
-    {
-        fprintf(stderr, "fcntl(sock,SETFL,opts)\n");
-        return -1;
-    }
-	return 0;
+  int opts;
+  if(0 > (opts = fcntl(fd,F_GETFL)))
+  {
+    fprintf(stderr, "fcntl(sock,GETFL)\n");
+    return -1;
+  }
+  opts = opts|O_NONBLOCK;
+  if (fcntl(fd,F_SETFL,opts) < 0)
+  {
+    fprintf(stderr, "fcntl(sock,SETFL,opts)\n");
+    return -1;
+  }
+  return 0;
 }
 
 int setreuseaddr(int fd)
 {
-    int opt = 1;
-    if (-1 == setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(&opt))) return -1; 
-    else return 0;
+  int opt = 1;
+  if (-1 == setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(&opt))) return -1; 
+  else return 0;
 }
 
 int setnodelay(int fd)
 {
-    int opt = 1; 
-    if(-1 == setsockopt (fd, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(&opt))) return -1;
-    else return 0;
+  int opt = 1; 
+  if(-1 == setsockopt (fd, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(&opt))) return -1;
+  else return 0;
 }
 
 int setotheropt(int fd)
 {
-	int opt = 1;
-	struct linger ling;
-	ling.l_onoff = 0;
-	ling.l_linger = 0;
-	if(-1 == setsockopt(fd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling))) return -1;
-    if(-1 == setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt))) return -1;
-	return 0;
+  int opt = 1;
+  struct linger ling;
+  ling.l_onoff = 0;
+  ling.l_linger = 0;
+  if(-1 == setsockopt(fd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling))) return -1;
+  if(-1 == setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt))) return -1;
+  return 0;
 }
 
 uint64_t get_curr_time(void)
 {
-	struct timeval t;
-	if(0 != gettimeofday(&t, NULL)) return 0;
-	else return t.tv_sec * 1000000 + t.tv_usec; 
+  struct timeval t;
+  if(0 != gettimeofday(&t, NULL)) return 0;
+  else return t.tv_sec * 1000000 + t.tv_usec; 
 }
 
 /**
@@ -73,7 +73,7 @@ uint64_t get_curr_time(void)
  */
 int is_file(const char *filename)
 {
-	return (0 == access(filename, R_OK))?1:0;	
+  return (0 == access(filename, R_OK))?1:0;	
 }
 
 /**
@@ -83,18 +83,18 @@ int is_file(const char *filename)
  */
 int is_dir(const char *dirname)
 {
-	assert(dirname);
-	struct stat sbuf;
-	if(-1 == stat(dirname, &sbuf)) return -1;
-	if(!S_ISDIR(sbuf.st_mode)) return 0;
-	else return 1;
+  assert(dirname);
+  struct stat sbuf;
+  if(-1 == stat(dirname, &sbuf)) return -1;
+  if(!S_ISDIR(sbuf.st_mode)) return 0;
+  else return 1;
 }
 
 double fytime(void)
 {
-	struct timeval tv;
-	if(gettimeofday(&tv, NULL) == -1) return 0.0;
-	return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
+  struct timeval tv;
+  if(gettimeofday(&tv, NULL) == -1) return 0.0;
+  return (double)tv.tv_sec + (double)tv.tv_usec / 1000000.0;
 }
 
 /**
@@ -104,10 +104,10 @@ double fytime(void)
  */
 double ttgetloadavg(void)
 {
-	double avgs[3];
-	int anum = getloadavg(avgs, sizeof(avgs) / sizeof(*avgs));
-	if(anum < 1) return 0.0;
-	return anum == 1 ? avgs[0] : avgs[1];
+  double avgs[3];
+  int anum = getloadavg(avgs, sizeof(avgs) / sizeof(*avgs));
+  if(anum < 1) return 0.0;
+  return anum == 1 ? avgs[0] : avgs[1];
 }
 
 

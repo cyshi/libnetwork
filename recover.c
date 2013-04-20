@@ -19,17 +19,17 @@ static recover_impl_t recover_impl;
 
 recover_impl_t *recover_getinstance(void)
 {
-	recover_impl_t *ret = &recover_impl;	
-	if(0 == inited)
-	{
-		ret->create_recover = create_recover;	
-		ret->lend = lend;	
-		ret->giveback = giveback;	
-		ret->destroy_recover = destroy_recover;	
-		ret->incr_recover = incr_recover;	
-		inited = 1;	
-	}
-	return ret;
+  recover_impl_t *ret = &recover_impl;	
+  if(0 == inited)
+  {
+    ret->create_recover = create_recover;	
+    ret->lend = lend;	
+    ret->giveback = giveback;	
+    ret->destroy_recover = destroy_recover;	
+    ret->incr_recover = incr_recover;	
+    inited = 1;	
+  }
+  return ret;
 }
 
 /**
@@ -39,19 +39,19 @@ recover_impl_t *recover_getinstance(void)
  */
 recover_t *create_recover(void)
 {
-	recover_t *recover = NULL;	
-	DMALLOC(recover, recover_t *, sizeof(recover_t));
-	if(NULL == recover) return NULL;
-	recover->size = RECOVER_DEFAULT_SIZE;
-	recover->curr_num = 0;
-	recover->total = 0;
-	DCALLOC(recover->data, recover_data_t *, recover->size, sizeof(recover_data_t));
-	if(NULL == recover->data)
-	{
-		DFREE(recover);
-		return NULL;
-	}
-	return recover;
+  recover_t *recover = NULL;	
+  DMALLOC(recover, recover_t *, sizeof(recover_t));
+  if(NULL == recover) return NULL;
+  recover->size = RECOVER_DEFAULT_SIZE;
+  recover->curr_num = 0;
+  recover->total = 0;
+  DCALLOC(recover->data, recover_data_t *, recover->size, sizeof(recover_data_t));
+  if(NULL == recover->data)
+  {
+    DFREE(recover);
+    return NULL;
+  }
+  return recover;
 }
 
 /**
@@ -61,11 +61,11 @@ recover_t *create_recover(void)
  */
 recover_data_t lend(recover_t *recover)
 {
-	assert(recover);	
-	if(0 == recover->curr_num) return NULL;
-	recover_data_t ret = NULL;
-	ret = recover->data[--recover->curr_num];
-	return ret;
+  assert(recover);	
+  if(0 == recover->curr_num) return NULL;
+  recover_data_t ret = NULL;
+  ret = recover->data[--recover->curr_num];
+  return ret;
 }
 
 /**
@@ -76,15 +76,15 @@ recover_data_t lend(recover_t *recover)
  */
 int giveback(recover_t *recover, recover_data_t item)
 {
-	assert(recover && item);	
-	int ret = -1;
-	if(0 == add_size(recover))
-	{
-		recover->data[recover->curr_num++] = item;	
-		if(recover->curr_num > recover->total) recover->total = recover->curr_num;
-		ret = 0;
-	}
-	return ret;	
+  assert(recover && item);	
+  int ret = -1;
+  if(0 == add_size(recover))
+  {
+    recover->data[recover->curr_num++] = item;	
+    if(recover->curr_num > recover->total) recover->total = recover->curr_num;
+    ret = 0;
+  }
+  return ret;	
 }
 
 /**
@@ -94,10 +94,10 @@ int giveback(recover_t *recover, recover_data_t item)
  */
 int destroy_recover(recover_t *recover)
 {
-	assert(recover);	
-	DFREE(recover->data);
-	DFREE(recover);
-	return 0;
+  assert(recover);	
+  DFREE(recover->data);
+  DFREE(recover);
+  return 0;
 }
 
 /**
@@ -107,14 +107,14 @@ int destroy_recover(recover_t *recover)
  */
 int add_size(recover_t *recover)
 {
-	assert(recover);	
-	if(recover->curr_num == recover->size)
-	{
-		recover->size *= 2;
-		DREALLOC(recover->data, recover_data_t *, recover->size * sizeof(recover_data_t));
-		if(NULL == recover->data) return -1;
-	}
-	return 0;
+  assert(recover);	
+  if(recover->curr_num == recover->size)
+  {
+    recover->size *= 2;
+    DREALLOC(recover->data, recover_data_t *, recover->size * sizeof(recover_data_t));
+    if(NULL == recover->data) return -1;
+  }
+  return 0;
 }
 
 /**
@@ -124,7 +124,7 @@ int add_size(recover_t *recover)
  */
 int incr_recover(recover_t *recover)
 {
-	assert(recover);	
-	return ++recover->total;
+  assert(recover);	
+  return ++recover->total;
 }
 

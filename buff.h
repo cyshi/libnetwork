@@ -8,9 +8,9 @@ typedef struct buff_s buff_t;
 //这个buff是2进制安全的
 struct buff_s
 {
-	void *data;
-	int max_length;//最大长度
-	int length;//当前长度
+  void *data;
+  int max_length;//最大长度
+  int length;//当前长度
 };
 
 buff_t *create_buff(int length);//创建一个buff
